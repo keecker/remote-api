@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.access;
+
+option java_package = "com.keecker.common.messages.access";
+import "AccessControlUtils.proto";
+
+message InvitationsMessage
+{
+    //number of invitations
+    required int32 quantity = 1;
+    //duration of invitation
+    optional int64 date_start = 2;
+    optional int64 date_end = 3;
+    //type of invitation
+    required AccessLevel access_level = 4;
+}
+
+message InvitationTokensMessage
+{
+    //list of tokens
+    repeated string tokens = 1;
+}
+
+message PermissionsListMessage
+{
+    message Permission
+    {
+        //email address
+        required string email = 1;
+        //name
+        required string name = 2;
+        //duration of invitation
+        optional int64 date_start = 3;
+        optional int64 date_end = 4;
+        //type of invitation
+        required AccessLevel access_level = 5;
+    }
+    //list of permission
+    repeated Permission permission = 1;
+}
+
+message RemovePermissionsMessage {
+
+    //list of email address
+    repeated string email = 1;
+}

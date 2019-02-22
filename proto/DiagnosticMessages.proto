@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.diagnostic;
+
+option java_package = "com.keecker.common.messages.diagnostic";
+
+message StopDiagnosticMessage {}
+
+message DiagnosticEndMessage {}
+
+message DiagnosticStatusMessage {
+    required bool isRunning = 1;
+}
+
+
+

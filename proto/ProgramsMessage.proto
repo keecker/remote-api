@@ -1,0 +1,70 @@
+
+syntax = "proto2";
+
+package com.keecker.common.messages.programs;
+
+option java_package = "com.keecker.common.messages.programs";
+
+import "ProgramsUtils.proto";
+
+message FetchContentMessage {
+    required ContentType contentType = 1;
+}
+
+message ContentListMessage {
+    required ContentType contentType = 1;
+    repeated ProgramContent programContent = 2;
+}
+
+message PreviewContentMessage {
+    // If no value play default sound
+    repeated ProgramContent programContent = 1;
+}
+
+message SleepAidMessage {
+    optional int64 programId = 1;
+    optional ProgramTrigger programTrigger = 2;
+    repeated ProgramContent programContent = 3;
+    optional ProgramLocation programLocation = 4;
+    required int64 duration = 5;
+    optional bool enabled = 6;
+    optional int32 volumeLevel = 7;
+    optional bool projectorOn = 8;
+    optional string mapKey = 9;
+}
+
+message AlarmMessage {
+    optional int64 programId = 1;
+    optional ProgramTrigger programTrigger = 2;
+    repeated ProgramContent programContent = 3;
+    optional ProgramLocation programLocation = 4;
+    optional bool enabled = 5;
+    optional int32 volumeLevel = 6;
+    optional bool projectorOn = 7;
+    optional string mapKey = 8;
+}
+
+message PatrolMessage {
+    optional int64 programId = 1;
+    optional ProgramTrigger programTrigger = 2;
+    repeated ProgramLocation programLocation = 3;
+    optional bool enabled = 4;
+    optional bool backToChargingStation = 5;
+    optional string mapKey = 6;
+}
+
+message ProgramsListMessage {
+    repeated AlarmMessage alarmMessage = 1;
+    repeated SleepAidMessage sleepAidMessage = 2;
+    repeated PatrolMessage patrolMessage = 3;
+}
+
+message CreateUpdateProgramMessage {
+    optional AlarmMessage alarmMessage = 1;
+    optional SleepAidMessage sleepAidMessage = 2;
+    optional PatrolMessage patrolMessage = 3;
+}
+
+message DeleteProgramMessage {
+    required int64 programId = 1;
+}

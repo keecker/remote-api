@@ -1,0 +1,40 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.programs;
+
+option java_package = "com.keecker.common.messages.programs";
+
+message ProgramTrigger {
+    required int64 startTime = 1;
+    repeated RepeatPattern repeatPattern = 2;
+    optional int64 endTime = 3;
+
+    enum RepeatPattern {
+        SUNDAYS = 0;
+        MONDAYS = 1;
+        TUESDAYS = 2;
+        WEDNESDAYS = 3;
+        THURSDAYS = 4;
+        FRIDAYS = 5;
+        SATURDAYS = 6;
+    }
+}
+
+message ProgramContent {
+    required string contentPath = 1;
+    required ContentType contentType = 2;
+    optional string contentThumbnailPath = 3;
+    optional string title = 4;
+}
+
+message ProgramLocation {
+    optional int64 spotId = 1;
+    optional int64 roomId = 2;
+}
+
+enum ContentType {
+    IMAGE = 0;
+    SOUND = 1;
+    VIDEO = 2;
+    YOUTUBE = 3;
+}

@@ -1,0 +1,113 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.planner;
+
+option java_package = "com.keecker.common.messages.planner";
+
+import "ProjectionUtils.proto";
+import "NavigationUtils.proto";
+
+//
+// Here are the Planner utils needed by Planner messages
+//
+
+message RChargingStation {
+    optional int64 correspondingPlanId = 1 [default = 0];
+    optional string name = 2 [default = ""];
+    optional string pictureUrl = 3 [default = ""];
+    optional int64 date = 4 [default = 0];
+    optional com.keecker.common.messages.navigation.RPose pose = 5;
+}
+
+message RPlan {
+    optional int64 id = 1 [default = 0];
+    optional string name = 2 [default = ""];
+    optional PlanType planType = 3 [default = CHARGING_STATION];
+    optional ActionType firstActionType = 4 [default = BEHAVIOR];
+    optional int64 mFirstActionId = 5 [default = 0];
+
+    enum PlanType {
+        CHARGING_STATION = 0;
+        PATROL = 1;
+        WAYPOINT = 2;
+    }
+
+   enum ActionType {
+        BEHAVIOR = 0;
+        GOTO = 1;
+        PROJECTOR_SETTINGS = 2;
+    }
+}
+
+message RWaypoint {
+    optional int64 correspondingPlanId = 1 [default = 0];
+    optional string name = 2 [default = ""];
+    optional string pictureUrl = 3 [default = ""];
+    optional int64 date = 4 [default = 0];
+    optional string behavior = 5 [default = ""];
+    optional com.keecker.common.messages.projection.RProjectorStatus projectorStatus = 6;
+    optional com.keecker.common.messages.navigation.RPose pose = 7;
+    optional Icon icon = 8 [default = DEFAULT];
+
+    enum Icon {
+        DEFAULT = 0;
+        SOFA = 1;
+        CUTLERY = 2;
+        TOQUE = 3;
+        SHOWER = 4;
+        BED = 5;
+        TOILET = 6;
+        WASHING_MACHINE = 7;
+        HANGER = 8;
+    }
+}
+
+message RRoom {
+    optional int64 id = 1 [default = 0];
+    required Type type = 2;
+    optional com.keecker.common.messages.navigation.RPose pose = 3;
+
+    enum Type {
+        KITCHEN = 0;
+        LIVING_ROOM = 1;
+        DINING_AREA = 2;
+        TOILETS = 3;
+        BEDROOM = 4;
+        KIDS_BEDROOM_BOY = 5;
+        KIDS_BEDROOM_GIRL = 6;
+        FRIENDS_BEDROOM = 7;
+        BABY_BEDROOM = 8;
+        BATHROOM = 9;
+        OFFICE = 10;
+        DRESSING = 11;
+        LAUNDRY = 12;
+        ENTRANCE = 13;
+        HALLWAY = 14;
+    }
+}
+
+message RSpot {
+    optional int64 id = 1 [default = 0];
+    optional int64 roomId = 2 [default = 0];
+    optional SpotType spotType = 3 [default = CEILING];
+    optional com.keecker.common.messages.navigation.RPose pose = 4;
+    optional bool ledsOn = 5 [default = true];
+    optional int32 orientation = 6 [default = 90];
+    optional bool autoFocus = 7 [default = true];
+    optional int32 focus = 8 [default = 55];
+    optional bool autoKeystone = 9 [default = true];
+    optional int32 keystone = 10 [default = 30];
+    optional int32 zoom = 11 [default = 50];
+    optional int32 brightness = 12 [default = 50];
+    optional int32 contrast = 13 [default = 50];
+    optional int32 displayMode = 14 [default = 4];
+    optional int32 flip = 15 [default = 0];
+    optional int32 ratio = 16 [default = 1];
+
+    enum SpotType {
+        CEILING = 0;
+        WALL = 1;
+        MUSIC = 2;
+        CHARGING_STATION = 3;
+    }
+}

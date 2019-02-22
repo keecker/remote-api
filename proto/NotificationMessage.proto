@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package com.keecker.common.messages;
+
+option java_package = "com.keecker.common.messages";
+
+
+// This message describes a notification to be displayed on the remote
+
+message NotificationMessage {
+    enum NotificationType {
+        // Keecker battery just went under 5% and is going to charging station
+        LOW_BATTERY_GO_TO_CS = 1;
+        // Keecker battery just went under 10 % and the projector is turned off
+        LOW_BATTERY_TURN_OFF_PROJECTOR = 2;
+        // Keecker battery juste went under 15 % and user is notified
+        LOW_BATTERY_15_PERCENT = 3;
+    }
+
+    required NotificationType type = 1;
+}

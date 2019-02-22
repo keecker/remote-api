@@ -1,0 +1,56 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.projection;
+
+option java_package = "com.keecker.common.messages.projection";
+
+//Object shared between Projection and Planner for the status of the projector
+import "ProjectionUtils.proto";
+
+//Setter/Update messages
+//If a message is sent from the remote to Keecker it is a setter
+//If a message is sent from Keecker to the remote it is a status update message
+//To receive update message, the remote should register the corresponding message
+
+message KeystoneMessage {
+    optional int32 value = 1 [default = 0];   //Range is 0 - 100
+    optional bool auto = 2 [default = false]; //If auto then value should not be taken into account
+}
+
+message FocusMessage {
+    optional int32 value = 1 [default = 0];  //Range is 0 - 100
+    optional bool auto = 2 [default = false]; //If auto then value should not be taken into account
+}
+
+message OrientationMessage {
+    required int32 value = 1 ;  //Range is 0 - 90 is degree. 90 is to the ceiling, 0 to the wall.
+}
+
+message BrightnessMessage {
+    required int32 value = 1; //Range is 0 - 100
+}
+
+message ZoomMessage {
+    required int32 value = 1; //Range is 0 - 100. 0 is maximum dezoom, 50 is no zoom, 100 is maximum zoom.
+}
+
+message FlipMessage { //Horizontal and vertical flips
+    required com.keecker.common.messages.projection.RProjectorStatus.DisplayPosition flipValue = 1;
+}
+
+message LedsMessage {
+    required bool on = 1; //On/Off only, fine grain through brightness
+}
+
+message DisplayModeMessage { //Presets
+    optional com.keecker.common.messages.projection.RProjectorStatus.DisplayMode displayModeValue = 1;
+}
+
+//Getter and control messages
+//Remote sends a message and get the same message as status
+//Remote to Keecker value is not taken into account
+
+message ProjectorStatusMessage { //Get the complete status
+    optional com.keecker.common.messages.projection.RProjectorStatus status = 1;
+}
+

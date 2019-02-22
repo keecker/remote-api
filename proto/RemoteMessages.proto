@@ -1,0 +1,124 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.remote;
+
+option java_package = "com.keecker.common.messages.remote";
+
+import "RemoteUtils.proto";
+
+message ImageMessage
+{
+    // path to the image
+    optional string path = 1;
+    // image in raw bytes
+    optional bytes image = 2;
+}
+
+message SetRelativeVolumeMessage
+{
+    enum VolumeCommand {
+        UP = 0;
+        DOWN = 1;
+    }
+
+    optional VolumeCommand command = 1 [default = UP];
+}
+
+message MuteToggleVolumeMessage
+{
+}
+
+message MuteVolumeMessage
+{
+    required bool mute = 1;
+}
+
+message SetVolumeMessage
+{
+    optional int32 volume = 1;
+}
+
+message VolumeMessage
+{
+    optional int32 volume = 1;
+    optional int32 max = 2;
+}
+
+message SnackbarMessage {
+    enum Duration {
+        DURATION_SHORT = 0;
+        DURATION_LONG = 1;
+    }
+
+    optional string message = 1 [default = ""];
+    optional Duration duration = 2 [default = DURATION_SHORT];
+}
+
+message NameMessage {
+    required string name = 1 [default = ""];
+}
+
+message SetNameMessage {
+    required string name = 1 [default = ""];
+}
+
+message ClaimKeeckerMessage {
+    optional string content = 1 [default = ""];
+}
+
+message BatteryStatusMessage {
+    optional RBatteryStatus status = 1;
+}
+
+message WifiStatusMessage {
+    optional RWifiStatus status = 1;
+}
+
+message StorageStatusMessage {
+    required int64 total = 1 [default = 0];
+    required int64 free = 2 [default = 0];
+}
+
+// Message to send to be registered to a specific type of message
+// type_name is the canonical name of the message class you want to register
+message RegisterMessage {
+    optional string type_name = 1;
+}
+
+// Message to send to be unregistered to a specific type of message
+// type_name is the canonical name of the message class you want to unregister
+message UnregisterMessage {
+    optional string type_name = 1;
+}
+
+message ConnectedUsersMessage {
+     optional int32 connectedUsersCount = 1 [default = 0];
+}
+
+message BuildInformationMessage {
+    optional string androidVersion = 1;
+    optional string servicesVersion = 2;
+}
+
+message SetupFinishedMessage {
+}
+
+message DistantConnectionMessage {
+    required string channel = 1;
+}
+
+message TouchWallMessage {
+    required bool isOn = 1;
+    optional bool startCalibration = 2 [default = false];
+}
+
+message VoiceRecognitionStatusMessage {
+    required bool isOn = 1;
+}
+
+message LaunchIntentMessage {
+    required string uri = 1;
+    required bool isMoving = 2;
+}
+
+message StopMediaMessage {}

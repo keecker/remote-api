@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.analytics;
+
+option java_package = "com.keecker.common.messages.analytics";
+
+message RequestLastAnalyticsMessage {}
+
+message LastAnalyticsMessage
+{
+    //room id of temperature sensor
+    required int32 roomTemperature = 1;
+    required float temperature = 2;
+    //room id of humidity sensor
+    required int32 roomHumidity = 3;
+    required float humidity = 4;
+}

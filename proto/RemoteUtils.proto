@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.remote;
+
+option java_package = "com.keecker.common.messages.remote";
+
+message RBatteryStatus {
+    optional string health = 1 [default = ""];
+    optional int32 level = 2 [default = 0];
+    optional bool plugged = 3 [default = false];
+    optional bool present = 4 [default = false];
+    optional int32 scale = 5 [default = 0];
+    optional bool isCharging = 6 [default = false];
+    optional string technology = 7 [default = ""];
+    optional int32 temperature = 8 [default = 0];
+    optional int32 voltage = 9 [default = 0];
+}
+
+message RWifiStatus {
+    optional int32 rssi = 1 [default = 0];
+    optional string SSID = 2 [default = ""];
+    optional bool isConnected = 3 [default = false];
+    optional string ip = 4 [default = ""];
+    optional int32 port = 5 [default = 0];
+}

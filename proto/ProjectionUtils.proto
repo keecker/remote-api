@@ -1,0 +1,61 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.projection;
+
+option java_package = "com.keecker.common.messages.projection";
+
+//
+// Here are the Projection utils needed by Projection and Planner messages
+//
+
+//Global projector status object
+message RProjectorStatus {
+    /**
+     * Presets
+     */
+    enum DisplayMode {
+        BRIGHTEST = 0;
+        VIVID = 1;
+        MOVIE = 2;
+        PICTURE = 3;
+        USER = 4;
+    }
+
+    /**
+     * Possibility to flip (horizontal and vertical) the image projected
+     */
+    enum DisplayPosition {
+        FRONT_TABLE = 0;
+        FRONT_CEILING = 1;
+        REAR_TABLE = 2;
+        REAR_CEILING = 3;
+    }
+
+    /**
+     * Define image proportions
+     */
+    enum AspectRatio {
+        RAUTO = 0;
+        R4_3 = 1;
+        R16_9 = 2;
+        R16_10 = 3;
+    }
+
+    optional bool ledOn = 1 [default = false];
+    optional int32 keystone = 2 [default = 0];
+    optional bool autoKeystone = 3 [default = false];
+    optional int32 zoom = 4 [default = 0];
+    optional int32 brightness = 5 [default = 0];
+    optional int32 contrast = 6 [default = 0];
+    optional DisplayMode displayMode = 7 [default = BRIGHTEST];
+    optional DisplayPosition displayPosition = 8 [default = FRONT_TABLE];
+    optional AspectRatio aspectRatio = 9 [default = R4_3];
+    optional int32 focus = 13 [default = 0];
+    optional bool autoFocus = 14 [default = false];
+    optional int32 orientation = 15 [default = 0];
+    optional bool powerOn = 16 [default = false];
+    optional bool disabled = 17 [default = false];
+}
+
+
+

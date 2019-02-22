@@ -1,0 +1,46 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.navigation;
+
+option java_package = "com.keecker.common.messages.navigation";
+
+message RPoint {
+    optional float x = 1 [default = 0];
+    optional float y = 2 [default = 0];
+}
+
+message RPath {
+    enum ErrorCode {
+        OK = 0;
+        REACHED = 1;
+        BAD_POSE = 2;
+        BAD_TARGET = 3;
+        UNREACHABLE = 4;
+        INTERRUPTED = 5;
+        UNKNOWN = 99;
+    }
+
+    optional ErrorCode errorMessage = 1 [default = OK];
+    repeated RPoint points = 2;
+}
+
+message RPose {
+    optional float x = 1 [default = 0];
+    optional float y = 2 [default = 0];
+    optional float theta = 3 [default = 0];
+    optional int64 stamp = 4 [default = 0];
+    optional float errorX = 5 [default = 0];
+    optional float errorY = 6 [default = 0];
+    optional float errorTheta = 7 [default = 0];
+}
+
+message RGoToChargingStationStatus {
+    enum State {
+        STARTED = 0;
+        DOCKING  = 1;
+        DOCKED = 2;
+        FAILED = 3;
+    }
+
+    required State state = 1;
+}

@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.debug;
+
+option java_package = "com.keecker.common.messages.debug";
+
+message LocalMapMessage {
+    optional int32 height = 1;
+    optional int32 width  = 2;
+    optional bytes image  = 3;
+}
+
+message CalibrationStatusMessage {
+  optional bool tilt  = 1;
+  optional bool focus = 2;
+  optional bool zcam  = 3;
+  optional bool gyro  = 4;
+}
+
+message SayMessage {
+    optional string text = 1 [default = ""];
+}
+
+message VpnStatusMessage
+{
+    required string uuid = 1;
+    required string state = 2;
+    required string message = 3;
+    required string level = 4;
+}
+
+message StopVpnMessage {}
+
+message StartVpnMessage {}

@@ -1,0 +1,127 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.system;
+
+option java_package = "com.keecker.common.messages.system";
+
+import "SystemUtils.proto";
+
+//
+// Input Messages
+//
+
+
+message KeyboardMessage {
+    enum Command {
+        OPEN = 0;
+        CLOSE = 1;
+        EDIT = 2;
+        SUBMIT = 3;
+        BACKSPACE = 4;
+        INJECT = 5;
+    }
+
+    optional Command command = 1 [default = OPEN];
+    optional string text = 2 [default = ""];
+    optional int32 inputType = 3 [default = 0];
+}
+
+message InputMessage {
+    enum InputCommand {
+            LEFT = 0;
+            RIGHT = 1;
+            UP = 2;
+            DOWN = 3;
+            CENTER = 4;
+            BACK = 5;
+            HOME = 6;
+            PLAY = 7;
+            GOOGLE_ASSISTANT = 8;
+        }
+
+    optional InputCommand command = 1 [default = LEFT];
+    optional int32 multiplier = 2 [default = 0];
+}
+
+message MouseMessage {
+    enum Command {
+        MOVE = 0;
+        DOWN = 1;
+        CLICK = 2;
+        END_DRAG = 3;
+        SCROLL = 4;
+    }
+
+    enum ScrollDirection {
+        WHEEL_DOWN = 0;
+        WHEEL_UP = 1;
+    }
+
+    required Command command = 1;
+    optional ScrollDirection direction = 2 [default = WHEEL_DOWN];
+    optional int32 x = 3 [default = 0];
+    optional int32 y = 4 [default = 0];
+}
+
+//
+// Wifi Messages
+//
+
+message WifiScanMessage {
+    repeated RWifiDetails scanResults = 1;
+}
+
+message WifiConnectMessage {
+    optional RWifiDetails network = 1;
+    optional string password = 2 [default = ""];
+    optional RCustomNetworkConfig ipConfig = 3;
+}
+
+message WifiConnectedMessage {
+    optional string ssid = 1 [default = ""];
+}
+
+message SelectSSIDMessage {
+    optional string ssid = 1 [default = ""];
+}
+
+message WifiErrorMessage {}
+
+
+
+//
+// Application Messages
+//
+
+message ListApplicationMessage {
+    repeated RKeeckerApplication applications = 1;
+}
+
+message RunningListApplicationMessage {
+    repeated RKeeckerApplication applications = 1;
+}
+
+message InstalledListApplicationMessage {
+    repeated RKeeckerApplication applications = 1;
+}
+
+message RemovedListApplicationMessage {
+    repeated RKeeckerApplication applications = 1;
+}
+
+message ChangedListApplicationMessage {
+    repeated RKeeckerApplication applications = 1;
+}
+
+message LaunchApplicationMessage {
+    optional RKeeckerApplication application = 1;
+}
+
+message QuitApplicationMessage {
+    optional RKeeckerApplication application = 1;
+}
+
+message OptimizedMessage {
+    optional RKeeckerApplication application = 1;
+    optional bytes message = 2;
+}

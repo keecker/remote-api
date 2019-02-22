@@ -1,0 +1,174 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.navigation;
+
+option java_package = "com.keecker.common.messages.navigation";
+
+import "NavigationUtils.proto";
+import "PlannerUtils.proto";
+
+//
+// Here are the Navigation messages that are not used by Planner
+//
+
+message BagMessage {
+    enum Command {
+        PLAY = 0;
+        STOP = 1;
+        RECORD = 2;
+        LIST = 3;
+        GET_STATE = 4;
+        TIME = 5;
+    }
+
+    enum State {
+        PLAYING = 0;
+        RECORDING = 1;
+        STOPPED = 2;
+    }
+
+    optional Command command = 1 [default = PLAY];
+    optional string bagName = 2 [default = ""];
+    optional double rate = 3 [default = 0];
+    repeated string topics = 4;
+    repeated string bags = 5;
+    optional State state = 6 [default = PLAYING];
+    optional double time = 7 [default = 0];
+    optional double totalTime = 8 [default = 0];
+}
+
+message SpeedMessage {
+    optional double linear = 1 [default = 0];
+    optional double angular = 2 [default = 0];
+}
+
+message StopMessage {}
+
+message ExplorationMessage {
+    enum Command {
+        START= 0;
+        STOP = 1;
+        GET_STATE = 2;
+    }
+
+    enum State {
+        STOPPED = 0;
+        EXPLORING = 1;
+    }
+
+    optional Command command = 1 [default = START];
+    optional State state = 2 [default = STOPPED];
+}
+
+message MappingStatusMessage {
+    required bool mapping = 1;
+}
+
+message StartMappingMessage {}
+
+message StopMappingMessage {
+    required bool cancel = 1;
+}
+
+message StartFollowMeMessage {}
+
+message StopFollowMeMessage {}
+
+message MovementStatusMessage {
+    optional bool moving = 1;
+    optional com.keecker.common.messages.planner.RRoom currentRoom = 2;
+    optional com.keecker.common.messages.planner.RSpot currentSpot = 3;
+}
+
+message MapStatusMessage {
+    required bool success = 1;
+}
+
+message UploadMapMessage {
+    required string mapName = 1;
+}
+
+message DownloadMapMessage {
+    required string mapKey = 1;
+}
+
+message DeleteMapMessage {
+    required string mapKey = 1;
+}
+
+message GoToMessage {
+    optional float x = 1 [default = 0];
+    optional float y = 2 [default = 0];
+    optional float theta = 3 [default = 0];
+}
+
+message RelativeGoToMessage {
+    optional float x = 1 [default = 0];
+    optional float y = 2 [default = 0];
+    optional float theta = 3 [default = 0];
+}
+
+message RelativeGoToStatusMessage {
+    optional bool success = 1 [ default = false];
+}
+
+message IrMessage {
+    repeated float values = 1;
+    optional bool register = 2 [default = false];
+}
+
+message ObstacleMessage {
+    repeated ObstacleDistance obstacles = 1;
+
+    enum ObstacleDistance {
+       NO_OBSTACLE = 0;
+       OBSTACLE_FAR = 1;
+       OBSTACLE_MIDRANGE = 2;
+       OBSTACLE_NEAR = 3;
+    }
+}
+
+message PathMessage {
+    optional RPath path = 1;
+}
+
+message MapMessage {
+    optional float resolution = 1 [default = 0];
+    optional int32 width = 2 [default = 0];
+    optional int32 height = 3 [default = 0];
+    optional RPose origin = 4;
+    optional string url = 5 [default = ""];
+    optional string mapKey = 6;
+}
+
+message PoseMessage {
+    optional bool isSetMessage = 1 [default = false];
+    optional RPose pose = 2;
+}
+
+message RobotIsLostMessage {
+    required bool isLost = 1;
+}
+
+message AlignToWallStatusMessage {
+    optional bool success = 1 [default = false];
+}
+
+message StartAlignToWallMessage {}
+
+message SupportedMapVersionMessage {
+    required int32 min = 1;
+    required int32 max = 2;
+}
+
+message SafeModeMessage {
+    optional bool state = 1 [default = true];
+}
+
+message DataLoggerMessage {
+    required bool state = 1;
+}
+
+message MapKeyMessage {
+    optional string mapKey = 1;
+}

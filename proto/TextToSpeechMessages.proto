@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.notification;
+
+option java_package = "com.keecker.common.messages.notification";
+
+message TextToSpeechStatusMessage {
+    required bool isEnabled = 1;
+}

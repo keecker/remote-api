@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.access;
+
+option java_package = "com.keecker.common.messages.access";
+
+enum AccessLevel {
+    ADMIN = 0;
+    PERMANENT = 1;
+    TEMPORARY = 2;
+    BLUETOOTH = 3;
+}

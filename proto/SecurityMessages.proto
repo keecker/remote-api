@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.security;
+
+option java_package = "com.keecker.common.messages.security";
+
+message SynchronizeMessage
+{
+}

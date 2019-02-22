@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.alexa;
+
+option java_package = "com.keecker.common.messages.alexa";
+
+message AlexaRequestMessage
+{
+    required string token = 1;
+    // wav in raw bytes
+    required bytes audio = 2;
+}
+
+message ExpectSpeechMessage
+{
+    required string timeoutMs = 1;
+}

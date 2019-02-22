@@ -1,0 +1,49 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.system;
+
+option java_package = "com.keecker.common.messages.system";
+
+
+//
+// Wifi utils
+//
+
+
+message RCustomNetworkConfig {
+    //IP
+    optional string ipAddress = 1 [default = ""];
+    optional string gateway = 2 [default = ""];
+    optional string dns = 3 [default = ""];
+    optional string prefixLength = 4 [default = ""];
+
+    //HTTP Proxy
+    optional string proxyHostName = 5 [default = ""];
+    optional string proxyPort = 6 [default = ""];
+    optional string proxyBypass = 7 [default = ""];
+    optional bool isAuto = 8 [default = false];
+}
+
+message RWifiDetails {
+    optional string SSID = 1 [default = ""];
+    optional string BSSID = 2 [default = ""];
+    optional int32 level = 3 [default = 0];
+    optional string capabilities = 4 [default = ""];
+}
+
+
+//
+// Application utils
+//
+
+message RKeeckerApplication {
+    optional int64 id = 1 [default = 0];
+    optional string name = 2 [default = ""];
+    optional string activityName = 3 [default = ""];
+    optional string packageName = 4 [default = ""];
+    optional bool optimized = 5 [default = false];
+    optional string icon = 6 [default = ""];
+    optional string banner = 7 [default = ""];
+    optional bool touchable = 8 [default = false];
+    optional string iconColor = 9 [default = ""];
+}

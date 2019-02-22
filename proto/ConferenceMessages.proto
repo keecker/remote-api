@@ -1,0 +1,66 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.conference;
+
+option java_package = "com.keecker.common.messages.conference";
+
+//this message is used by PresenceService
+message StartCameraStreamingMessage {
+    optional int32 cameraIndex = 1 [default = 0]; //camera index 0 is corresponding to the front
+    required string token = 2;
+    required string room = 3;
+    required int32 codec = 4 [default = 0]; // default index 0 is corresponding to codec H264
+    required string sessionId = 5 [default = ""]; // default value empty string is corresponding to remote opening camera
+}
+
+message SwitchCameraStreamingMessage {
+    optional int32 cameraIndex = 1 [default = 0]; //camera index 0 is corresponding to the front
+}
+
+// Remote sends to Keecker to switch audio ON / OFF when already streaming
+message PublishAudioMessage {
+    required bool publishAudio = 1;
+}
+
+message StreamingStatusMessage {
+    // cameraIndex == -1 if not streaming
+    optional int32 cameraIndex = 2 [default = 0];
+}
+
+message TakePictureMessage {
+    optional int32 cameraIndex = 1 [default = 0]; //camera index 0 is corresponding to the front
+}
+
+message CameraPictureMessage {
+    // image in raw bytes
+    optional bytes image = 1;
+}
+
+message FisheyeDewarpModeMessage {
+    // must stay in sync with keecker/services/conference/interfaces/..../DewarpMode.java
+    enum Mode {
+        NO_DEWARP = 0;
+        PANORAMA = 1;
+        DEWARP = 2;
+    }
+    required Mode dewarpMode = 1;
+}
+
+message FisheyeScrollMessage {
+    // Amount of theta to scroll by
+    required int32 dTheta = 1;
+    // Amount of vertical scroll in zoomed in dewarped view
+    required double dPhi = 2;
+}
+
+message FisheyeScaleMessage {
+    // Amount of scale
+    required double scale = 1;
+}
+
+message FisheyeRecenterMessage {
+}
+
+message StartInStoreDemoCamMessage {}
+
+message StopInStoreDemoCamMessage {}

@@ -1,0 +1,210 @@
+syntax = "proto2";
+
+package com.keecker.common.messages.planner;
+
+option java_package = "com.keecker.common.messages.planner";
+
+import "NavigationUtils.proto";
+import "PlannerUtils.proto";
+
+//
+// Here are the Planner messages
+//
+
+
+message AddChargingStationMessage {
+    optional string name = 1 [default = ""];
+    optional com.keecker.common.messages.navigation.RPose pose = 2;
+}
+
+message DeleteChargingStationMessage {
+    optional RChargingStation chargingStation = 1;
+}
+
+message GoToChargingStationMessage {
+    optional RChargingStation chargingStation = 1;
+}
+
+message BackToBaseMessage {
+}
+
+message ListChargingStationMessage {
+    repeated RChargingStation chargingStationList = 1;
+}
+
+message AddPatrolMessage {
+    optional string name = 1 [default = ""];
+    repeated com.keecker.common.messages.navigation.RPose poses = 2;
+}
+
+message DeletePatrolMessage {
+    optional RPlan patrol = 2;
+}
+
+message GoToPatrolMessage {
+    optional RPlan patrol = 1;
+}
+
+message ListPatrolMessage {
+    repeated RPlan patrolList = 1;
+}
+
+message AddWaypointMessage {
+    optional RWaypoint waypoint = 1;
+}
+
+message DeleteWaypointMessage {
+    optional RWaypoint waypoint = 1;
+}
+
+message GoToWaypointMessage {
+    optional RWaypoint waypoint = 1;
+}
+
+message UpdateWaypointMessage {
+    optional RWaypoint waypoint = 1;
+    optional bool shouldResetSettings = 2 [default = false];
+}
+
+message AddRoomMessage {
+    repeated RRoom room = 1;
+}
+
+message DeleteRoomMessage {
+    repeated RRoom room = 1;
+}
+
+message DeleteAllRoomsMessage {
+}
+
+message GoToRoomMessage {
+    optional RRoom room = 1;
+}
+
+message GoToRoomByNameMessage {
+    optional string name = 1;
+}
+
+message UpdateRoomMessage {
+    optional RRoom room = 1;
+}
+
+message ListRoomMessage {
+    repeated RRoom roomList = 1;
+}
+
+message AddSpotMessage {
+    optional RSpot spot = 1;
+}
+
+message DeleteSpotMessage {
+    optional RSpot spot = 1;
+}
+
+message DeleteAllSpotMessage {
+}
+
+message GoToSpotMessage {
+    optional RSpot spot = 1;
+}
+
+message GoToSpotByNameMessage {
+    optional string roomName = 1;
+    optional string spotName = 2;
+}
+
+message UpdateSpotMessage {
+    optional RSpot spot = 1;
+}
+
+message ListSpotMessage {
+    repeated RSpot spotList = 1;
+}
+
+message ListSpotByRoomMessage {
+    optional RRoom room = 1;
+    repeated RSpot spotList = 2;
+}
+
+message ListChargingStationsMessage {
+    repeated RSpot spotList = 1;
+}
+
+message ProposedSpotMessage {
+    required RSpot spot = 1;
+}
+
+message PlannerStatusMessage {
+    optional bool success = 1 [default = false];
+}
+
+// Actions messages
+
+message CurrentActions {
+    message Action {
+        required string actionName = 1;
+        required bytes actionDetails = 2;
+    }
+    repeated Action action = 1;
+}
+
+message AlarmAction {
+    required int32 programId = 1;
+    required ActionState actionState = 2;
+    repeated Error error = 3;
+
+    enum Error {
+        UNKNOWN = 0;
+        GO_TO_FAILED = 1;
+    }
+}
+
+message GoToAction {
+    required ActionState actionState = 1;
+    repeated com.keecker.common.messages.navigation.RPoint points = 2;
+    optional Error error = 3;
+
+    enum Error {
+        BAD_POSE = 1;
+        BAD_TARGET = 2;
+        UNREACHABLE = 3;
+        INTERRUPTED = 4;
+        UNKNOWN = 99;
+    }
+}
+
+message SleepAidAction {
+    required int32 programId = 1;
+    required ActionState actionState = 2;
+    repeated Error error = 3;
+
+    enum Error {
+        UNKNOWN = 0;
+        MISSING_CONTENT = 1;
+        GO_TO_FAILED = 2;
+    }
+}
+
+message PatrolAction {
+    required int32 programId = 1;
+    required ActionState actionState = 2;
+    repeated Error error = 3;
+
+    enum Error {
+        UNKNOWN = 0;
+        PATROL_FAILED = 1;
+        GO_TO_CS_FAILED = 2;
+    }
+}
+
+message CancelCurrentAction {
+
+}
+
+enum ActionState {
+    UNKNOWN = 0;
+    IN_PROGRESS = 1;
+    CANCELED = 2;
+    SUCCESS = 3;
+    FAILED = 4;
+}

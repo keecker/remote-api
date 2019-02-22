@@ -1,0 +1,89 @@
+syntax = "proto2";
+
+package com.keecker.common.messages;
+
+option java_package = "com.keecker.common.messages";
+
+//
+// This message is what is exchanged between remote and keecker
+// It contains a string corresponding to the type of the message you want to deliver,
+// and an array of bytes corresponding to the message you want to deliver.
+// The message you want to send will be wrap into a KeeckerMessage automatically by the communication manager
+// using com.keecker.common.messages.MessageUtils.wrapIntoKeeckerMessage(Message message),
+// so you do not have to do it yourself !
+// After being wrapped into KeeckerMessage, the message will be encrypted and wrapped into EncryptedKeeckerMessage
+// This EncryptedKeeckerMessage contains the encrypted message and a nonce used to decrypt it
+//
+
+message KeeckerMessage
+{
+    // Fully qualified classname for message
+    required string type_name = 2;
+    // Message in raw bytes
+    required bytes message = 3;
+}
+
+// AuthMessage is the first message sent by the remote to Keecker.
+// It contains the public keay of the remote, which is used by Keecker to authenticate the remote.
+// It can also contain an invitation token
+// If the connection is accepted by Keecker (means this user has rights on the Keecker), keecker will
+// reply with another AuthMessage containing Keecker's public key.
+// Once this handshake has finished all byte send will be encrypted.
+message AuthMessage {
+    enum ErrorCode {
+        // The expected AuthMessage was incorrect
+        INCORRECT_AUTH_MESSAGE = 0;
+        // The user is unknown and didn't provide an invitation token
+        UNKNOWN_USER = 1;
+        // The user is known but unauthorized on this connection type
+        UNAUTHORIZED_USER_FOR_CONNECTION_TYPE = 2;
+        // The pair of public key / device id don't match
+        INCORRECT_PUBLIC_KEY_AND_DEVICE_ID = 3;
+        // The invitation token is incorrect
+        INCORRECT_TOKEN = 4;
+        // The public key of Keecker is incorrect
+        INCORRECT_KEECKER_PUBLIC_KEY = 5;
+        // Keecker is in setup and already have a connection
+        IN_SETUP_ALREADY_HAVE_CONNECTION = 6;
+        // Unhandled exception
+        UNHANDLED_EXCEPTION = 7;
+        // User is a temporary user and his access has not started yet
+        USER_ACCESS_HAS_NOT_STARTED = 8;
+        // User is a temporary user and his access has already finished
+        USER_ACCESS_HAS_FINISHED = 9;
+        // Persistance error on Keecker
+        PERSISTANCE_ERROR = 10;
+        // Keecker has a version > to the remote version and is incompatible.
+        // The user should upgrade its remote app.
+        FORCE_UPGRADE = 11;
+    }
+
+    optional bytes key = 1;
+    optional string userId = 2;
+    optional string deviceId = 3;
+    optional string token = 4;
+    optional ErrorCode errorCode = 5;
+    optional string platform = 6;
+    optional int32 versionCode = 7 [default = 0];
+
+}
+
+// ServiceVersionMessage is the first message returned by keecker when receiving an AuthMessage
+// It informs the remote of the current version of the keeckerservices
+message ServiceVersionMessage {
+    enum ModelType {
+        UNKNOWN = 0;
+        // Keecker
+        K1 = 1;
+    }
+    required int32 versionCode = 1;
+    required string versionName = 2;
+    // THIS IS FOR LAST RESORT ONLY
+    // Returning true should display a popup on the remote informing the user his Keecker is now
+    // uncompatible with his current version of the remote, and inviting him to upgrade to the last
+    // version.
+    required bool forceUpgrade = 3;
+    required ModelType modelType = 4;
+    // Hardware version of the device
+    required int32 modelVersion = 5;
+}
