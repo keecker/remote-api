@@ -29,24 +29,24 @@ As long as its setup is not finished, Keecker accepts any devices but will:
 
 At the end of the setup, only the last device connected will keep access rights to Keecker.
 
-![setup scheme](doc/setup_connection.png)
+![setup scheme](doc/images/setup_connection.png)
 
 ## Connection to a known Keecker
 
 Keecker has a list of the devices allowed to connect to him, for a normal connection Keecker will simply checks if the connecting device is in this list and accept or refuse the connection.
 
-![normal connection scheme](doc/normal_connection.png)
+![normal connection scheme](doc/images/normal_connection.png)
 
 ## Connecting from a new device (same account)
 
 When the user login on a new devices, this device adds its public key to the backend and the backend pushes the new Key to Keecker. Once Keecker has the new key the device will be authorized to connect as a normal connection.
 **New device can only connect to Keecker if keecker and the new device both have internet access.**
 
-![new device connection scheme](doc/new_device_connection.png)
+![new device connection scheme](doc/images/new_device_connection.png)
 
 ## Giving access to another account
 
 The key point of the invitation is that token are generated and accepted on Keecker. In this case too Keecker is directly able to know if a given token is valid or not.
 The mail sent to Bar contains a deeplink which should either open the app or point to the correct store to install the app.
 
-![invitation scheme](doc/invitation.png)
+![invitation scheme](doc/images/invitation.png)
