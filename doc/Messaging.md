@@ -1,21 +1,34 @@
 # Keecker Remote Messaging
 
 - Chose a transport:
-  - [Bluetooth](Bluetooth Transport.md)
-  - [WiFi / Ethernet](WebSocket Transport.md)
+  - [Bluetooth](BluetoothTransport.md)
+  - [WiFi / Ethernet](WebSocketTransport.md)
 - Exchange Protocol Buffers messages between your companion app and Keecker.
 - Start by sending and receiving encryption keys.
 - Encrypt the following messages with NaCl.
 
 # Python implementation
 
-The following snippet uses the `libnacl` and `protobuf` (3.0.0b2) dependencies.
+The following snippets uses the `libnacl` and `protobuf` (3.0.0b2) dependencies.
 
-Start by compiling the messages to Python, you can find them in the [./proto](../proto) folder.
+Start by compiling the messages to Python, you can find them in the [./proto](../proto) folder:
 
 ```bash
 protoc --proto_path ./proto/ --python_out=messages/ ./proto/*
 ```
+
+Generate your key pair:
+
+```python
+import base64
+
+PUBLIC_KEY = base64.urlsafe_b64decode(
+    "pGGOdMUhK106WIJFkXxtoZrv6kqcLdvUgOEDzbdsrUo=")
+PRIVATE_KEY = base64.urlsafe_b64decode(
+    "eQyWKUwAZz_mPdrp0RZUHk3EoS-pWFa__P8YBV2jQdI=")
+```
+
+Talk to Keecker:
 
 ```python
 from libnacl.public import Box
@@ -39,8 +52,8 @@ class KeeckerMessaging:
         if len(msg.key) != len(private_key):
             print("Bad key ! Keecker most likely refused your connection")
         else:
-            print('Connection is now secured')
             self.box = Box(private_key, msg.key)
+            print('Connection is now secured')
 
     def send(self, message):
         wrapper = KeeckerMessage()
